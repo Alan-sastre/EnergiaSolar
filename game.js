@@ -1,12 +1,13 @@
-import PuzzleSolarScene from './scenas/PuzzleSolarScene.js';
-import Puzzle2Scene from './scenas/Puzzle2Scene.js';
-import Puzzle3Scene from './scenas/Puzzle3Scene.js';
+import PuzzleSolarScene from "./scenas/PuzzleSolarScene.js";
+import Puzzle2Scene from "./scenas/Puzzle2Scene.js";
+import Puzzle3Scene from "./scenas/Puzzle3Scene.js";
 
 const config = {
   type: Phaser.AUTO,
   width: 1000,
-  height: 500,
+  height: 600,
   parent: "game-container",
+  backgroundColor: "#001532",
   physics: {
     default: "arcade",
     arcade: {
@@ -19,7 +20,7 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     width: 1000,
-    height: 500,
+    height: 600,
   },
 };
 
