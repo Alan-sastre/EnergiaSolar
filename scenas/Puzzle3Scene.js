@@ -25,7 +25,7 @@ export default class Puzzle3Scene extends Phaser.Scene {
       .zone(200, 115, 100, 100)
       .setRectangleDropZone(100, 100);
     this.dropZoneBattery = this.add
-      .zone(200, 460, 80, 80)
+      .zone(200, 430, 80, 80)
       .setRectangleDropZone(80, 80);
 
     // Siluetas guía (Más sutiles y elegantes)
@@ -33,7 +33,7 @@ export default class Puzzle3Scene extends Phaser.Scene {
       .rectangle(200, 115, 80, 60, 0xffffff, 0.05)
       .setStrokeStyle(2, 0xffffff, 0.2); // Panel en poste
     this.add
-      .rectangle(200, 460, 50, 70, 0xffffff, 0.05)
+      .rectangle(200, 430, 50, 70, 0xffffff, 0.05)
       .setStrokeStyle(2, 0xffffff, 0.2); // Batería en base
 
     // Elementos arrastrables
@@ -50,8 +50,8 @@ export default class Puzzle3Scene extends Phaser.Scene {
 
     // Eventos
     this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-      gameObject.x = dragX;
-      gameObject.y = dragY;
+      gameObject.x = Phaser.Math.Clamp(dragX, 50, 950);
+      gameObject.y = Phaser.Math.Clamp(dragY, 50, 470);
     });
 
     this.input.on("drop", (pointer, gameObject, dropZone) => {
@@ -83,12 +83,15 @@ export default class Puzzle3Scene extends Phaser.Scene {
   createNightBackground() {
     const bg = this.add.graphics();
     const width = 1000;
-    const height = 600;
+    const height = 500;
 
     // 1. Cielo Nocturno/Atardecer (Gradiente de alta calidad)
     // De azul profundo espacial a un morado/naranja de atardecer urbano
     bg.fillGradientStyle(0x0f172a, 0x0f172a, 0x312e81, 0x4338ca, 1);
     bg.fillRect(0, 0, width, height);
+    bg.fillStyle(0x7c3aed, 0.08);
+    bg.fillEllipse(320, 210, 560, 140);
+    bg.fillEllipse(760, 180, 500, 120);
 
     // Estrellas (Fondo lejano con brillo variable)
     for (let i = 0; i < 150; i++) {
@@ -115,14 +118,14 @@ export default class Puzzle3Scene extends Phaser.Scene {
     // Poste para la estación solar (a la izquierda) - Rediseñado
     // Base de hormigón
     bg.fillStyle(0x94a3b8, 1);
-    bg.fillRoundedRect(170, 490, 60, 15, 2);
+    bg.fillRoundedRect(170, 460, 60, 15, 2);
     // Sombra de la base
     bg.fillStyle(0x64748b, 1);
-    bg.fillRect(170, 500, 60, 5);
+    bg.fillRect(170, 470, 60, 5);
 
     // Poste principal (Metal oscuro)
     bg.fillStyle(0x334155, 1);
-    bg.fillRoundedRect(190, 150, 20, 350, 2);
+    bg.fillRoundedRect(190, 150, 20, 320, 2);
 
     // Detalles del poste (Uniones/Refuerzos)
     bg.fillStyle(0x475569, 1);
@@ -256,9 +259,9 @@ export default class Puzzle3Scene extends Phaser.Scene {
 
     // Camino pavimentado (Curvo y elegante)
     const path = new Phaser.Curves.Path(0, height);
-    path.cubicBezierTo(200, 550, 500, 500, width, 550);
-    path.lineTo(width, 580);
-    path.cubicBezierTo(500, 530, 200, 580, 0, height - 20);
+    path.cubicBezierTo(200, 470, 500, 450, width, 470);
+    path.lineTo(width, 500);
+    path.cubicBezierTo(500, 470, 200, 500, 0, height - 10);
     path.closePath();
 
     bg.fillStyle(0x57534e, 1); // Piedra
@@ -277,8 +280,8 @@ export default class Puzzle3Scene extends Phaser.Scene {
       // Es difícil mapear exactamente al path sin lógica compleja,
       // así que usaremos puntos dispersos en la zona central
       const px = Math.random() * width;
-      const py = 550 + Math.random() * 50;
-      if (py > 530 && py < 590) {
+      const py = 455 + Math.random() * 35;
+      if (py > 450 && py < 500) {
         // Filtro burdo
         bg.lineBetween(px, py, px + 10, py + 5);
       }
@@ -352,16 +355,16 @@ export default class Puzzle3Scene extends Phaser.Scene {
     };
 
     // Dibujar árboles en el escenario
-    drawTree(80, 480, 1.2); // Izquierda primer plano
-    drawTree(900, 470, 1.0); // Derecha
-    drawTree(400, 460, 0.8); // Fondo medio
-    drawTree(700, 460, 0.9); // Fondo medio
+    drawTree(80, 455, 1.2); // Izquierda primer plano
+    drawTree(900, 445, 1.0); // Derecha
+    drawTree(400, 438, 0.8); // Fondo medio
+    drawTree(700, 438, 0.9); // Fondo medio
 
     // Arbustos decorativos
     graphics.fillStyle(0x16a34a, 1);
-    graphics.fillCircle(350, 480, 20);
-    graphics.fillCircle(380, 490, 25);
-    graphics.fillCircle(330, 490, 15);
+    graphics.fillCircle(350, 450, 20);
+    graphics.fillCircle(380, 460, 25);
+    graphics.fillCircle(330, 460, 15);
   }
 
   createStreetLamp() {
@@ -1127,7 +1130,7 @@ export default class Puzzle3Scene extends Phaser.Scene {
     wires.lineStyle(3, 0xffff00);
 
     const path1 = new Phaser.Curves.Path(200, 115);
-    path1.lineTo(200, 460);
+    path1.lineTo(200, this.dropZoneBattery.y);
     path1.draw(wires);
 
     // Encender luz
@@ -1162,26 +1165,21 @@ export default class Puzzle3Scene extends Phaser.Scene {
 
     // Texto de Felicitaciones
     const winText = this.add
-      .text(
-        width / 2,
-        height / 2 - 50,
-        "¡FELICIDADES!\nHAS COMPLETADO EL JUEGO",
-        {
-          fontFamily: "Arial",
-          fontSize: "48px",
-          color: "#ffd700",
-          align: "center",
-          stroke: "#000000",
-          strokeThickness: 6,
-          shadow: {
-            offsetX: 3,
-            offsetY: 3,
-            color: "#000",
-            blur: 5,
-            fill: true,
-          },
+      .text(width / 2, height / 2 - 50, "¡GENIAL!\nNIVEL 3 COMPLETADO", {
+        fontFamily: "Arial",
+        fontSize: "48px",
+        color: "#ffd700",
+        align: "center",
+        stroke: "#000000",
+        strokeThickness: 6,
+        shadow: {
+          offsetX: 3,
+          offsetY: 3,
+          color: "#000",
+          blur: 5,
+          fill: true,
         },
-      )
+      })
       .setOrigin(0.5)
       .setScale(0);
 
@@ -1205,7 +1203,7 @@ export default class Puzzle3Scene extends Phaser.Scene {
     btnBg.strokeRoundedRect(-120, -30, 240, 60, 15);
 
     const btnText = this.add
-      .text(0, 0, "Volver a Jugar", {
+      .text(0, 0, "Ir al Puzzle 4", {
         fontFamily: "Arial",
         fontSize: "28px",
         color: "#ffffff",
@@ -1248,9 +1246,9 @@ export default class Puzzle3Scene extends Phaser.Scene {
     });
 
     restartBtn.on("pointerdown", () => {
-      this.cameras.main.fade(500, 0, 0, 0, false, (camera, progress) => {
+      this.cameras.main.fade(1500, 0, 0, 0, false, (camera, progress) => {
         if (progress === 1) {
-          this.scene.start("PuzzleSolarScene");
+          this.scene.start("Puzzle4Scene");
         }
       });
     });

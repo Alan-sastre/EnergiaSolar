@@ -1,6 +1,7 @@
 import PuzzleSolarScene from "./scenas/PuzzleSolarScene.js";
 import Puzzle2Scene from "./scenas/Puzzle2Scene.js";
 import Puzzle3Scene from "./scenas/Puzzle3Scene.js";
+import Puzzle4Scene from "./scenas/Puzzle4Scene.js";
 
 const config = {
   type: Phaser.AUTO,
@@ -15,7 +16,7 @@ const config = {
       debug: false,
     },
   },
-  scene: [PuzzleSolarScene, Puzzle2Scene, Puzzle3Scene],
+  scene: [PuzzleSolarScene, Puzzle2Scene, Puzzle3Scene, Puzzle4Scene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -25,3 +26,14 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
+
+const applyMobileSafeZoom = () => {
+  const isSmallMobile = window.innerWidth < 900 || window.innerHeight < 520;
+  const nextZoom = isSmallMobile ? 0.92 : 1;
+  game.scale.setZoom(nextZoom);
+  game.scale.refresh();
+};
+
+window.addEventListener("resize", applyMobileSafeZoom);
+window.addEventListener("orientationchange", applyMobileSafeZoom);
+window.addEventListener("DOMContentLoaded", applyMobileSafeZoom);

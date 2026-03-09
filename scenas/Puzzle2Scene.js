@@ -48,8 +48,8 @@ export default class Puzzle2Scene extends Phaser.Scene {
 
     // Eventos
     this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-      gameObject.x = dragX;
-      gameObject.y = dragY;
+      gameObject.x = Phaser.Math.Clamp(dragX, 50, 950);
+      gameObject.y = Phaser.Math.Clamp(dragY, 50, 470);
     });
 
     this.input.on("drop", (pointer, gameObject, dropZone) => {
@@ -82,7 +82,7 @@ export default class Puzzle2Scene extends Phaser.Scene {
     // 1. Capa de Fondo (Cielo y Montañas Lejanas)
     const bg = this.add.graphics();
     const width = 1000;
-    const height = 600;
+    const height = 500;
 
     // Cielo
     bg.fillGradientStyle(0x4fc3f7, 0x4fc3f7, 0xe1f5fe, 0xe1f5fe, 1);
@@ -102,8 +102,8 @@ export default class Puzzle2Scene extends Phaser.Scene {
     mountains.lineTo(600, 300);
     mountains.lineTo(800, 400);
     mountains.lineTo(1000, 300);
-    mountains.lineTo(1000, 600);
-    mountains.lineTo(0, 600);
+    mountains.lineTo(1000, 500);
+    mountains.lineTo(0, 500);
     mountains.closePath();
     bg.fillPoints(mountains.getPoints());
 
@@ -113,8 +113,8 @@ export default class Puzzle2Scene extends Phaser.Scene {
     const hills = new Phaser.Curves.Path(0, 450);
     hills.quadraticBezierTo(300, 350, 600, 420);
     hills.quadraticBezierTo(800, 450, 1000, 400);
-    hills.lineTo(1000, 600);
-    hills.lineTo(0, 600);
+    hills.lineTo(1000, 500);
+    hills.lineTo(0, 500);
     hills.closePath();
     midLayer.fillPoints(hills.getPoints(200));
 
@@ -143,12 +143,16 @@ export default class Puzzle2Scene extends Phaser.Scene {
       this.createFlower(
         fg,
         50 + i * 60 + Math.random() * 20,
-        560 + Math.random() * 20,
+        470 + Math.random() * 20,
       );
     }
 
     // Nubes
     this.createFluffyClouds(midLayer); // Nubes detrás del primer plano
+
+    midLayer.fillStyle(0xffffff, 0.1);
+    midLayer.fillEllipse(300, 260, 420, 90);
+    midLayer.fillEllipse(760, 230, 360, 80);
   }
 
   createWindTurbine(x, y, scale) {
@@ -425,7 +429,7 @@ export default class Puzzle2Scene extends Phaser.Scene {
 
     // Tubería vertical principal
     const mainV = this.add
-      .rectangle(450, 400, 20, 200, pipeColor)
+      .rectangle(450, 390, 20, 110, pipeColor)
       .setOrigin(0.5, 0);
     this.pipes.push(mainV);
 
@@ -436,7 +440,7 @@ export default class Puzzle2Scene extends Phaser.Scene {
     this.pipes.push(conn);
 
     // Tuberías horizontales a cada fila de cultivos
-    const rows = [450, 490, 530, 570];
+    const rows = [390, 420, 450, 480];
     rows.forEach((y) => {
       const hPipe = this.add
         .rectangle(450, y, 500, 10, pipeColor)
@@ -469,7 +473,7 @@ export default class Puzzle2Scene extends Phaser.Scene {
 
   createCrops() {
     this.crops = [];
-    const rows = [450, 490, 530, 570];
+    const rows = [390, 420, 450, 480];
 
     rows.forEach((y) => {
       for (let x = 500; x < 950; x += 100) {
@@ -752,7 +756,7 @@ export default class Puzzle2Scene extends Phaser.Scene {
     this.updatePipes(true);
 
     // 2. Animación agua saliendo de aspersores
-    this.time.delayedCall(500, () => {
+    this.time.delayedCall(700, () => {
       this.sprinklers.forEach((s) => {
         // Create a container for water drops for each sprinkler
         const waterContainer = this.add.container(s.x, s.y);
@@ -782,7 +786,7 @@ export default class Puzzle2Scene extends Phaser.Scene {
       });
 
       // 3. Cultivos reverdecen
-      this.time.delayedCall(1500, () => {
+      this.time.delayedCall(1900, () => {
         this.crops.forEach((c) => {
           this.drawHealthyCrop(c.container);
 
@@ -813,7 +817,7 @@ export default class Puzzle2Scene extends Phaser.Scene {
     this.tweens.add({
       targets: overlay,
       alpha: 0.7,
-      duration: 500,
+      duration: 800,
     });
 
     // Secuencia de Fuegos Artificiales
@@ -847,10 +851,10 @@ export default class Puzzle2Scene extends Phaser.Scene {
         },
         {
           targets: overlay,
-          duration: 2000, // Pausa para ver la celebración
+          duration: 2800, // Pausa para ver la celebración
           onComplete: () => {
             // Transición automática al siguiente puzzle
-            this.cameras.main.fade(1000, 0, 0, 0, false, (camera, progress) => {
+            this.cameras.main.fade(1600, 0, 0, 0, false, (camera, progress) => {
               if (progress === 1) {
                 this.scene.start("Puzzle3Scene");
               }

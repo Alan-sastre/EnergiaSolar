@@ -49,7 +49,7 @@ export default class PuzzleSolarScene extends Phaser.Scene {
   createBackground() {
     const bg = this.add.graphics();
     const width = 1000;
-    const height = 600;
+    const height = 500;
 
     // 1. Cielo Vibrante (Azul profundo a celeste claro)
     bg.fillGradientStyle(0x0288d1, 0x0288d1, 0xb3e5fc, 0xb3e5fc, 1);
@@ -57,49 +57,53 @@ export default class PuzzleSolarScene extends Phaser.Scene {
 
     // 2. Montañas Lejanas (Majestuosas y púrpuras por la distancia)
     bg.fillStyle(0x5c6bc0, 1);
-    const mountain1 = new Phaser.Curves.Path(0, 500);
+    const mountain1 = new Phaser.Curves.Path(0, 420);
     mountain1.lineTo(150, 250);
-    mountain1.lineTo(350, 500);
+    mountain1.lineTo(350, 420);
     mountain1.closePath();
     bg.fillPoints(mountain1.getPoints());
 
     bg.fillStyle(0x7986cb, 1);
-    const mountain2 = new Phaser.Curves.Path(200, 500);
+    const mountain2 = new Phaser.Curves.Path(200, 420);
     mountain2.lineTo(450, 300);
-    mountain2.lineTo(700, 500);
+    mountain2.lineTo(700, 420);
     mountain2.closePath();
     bg.fillPoints(mountain2.getPoints());
 
     bg.fillStyle(0x9fa8da, 1); // Más clara, más cerca
-    const mountain3 = new Phaser.Curves.Path(600, 500);
+    const mountain3 = new Phaser.Curves.Path(600, 420);
     mountain3.lineTo(850, 350);
-    mountain3.lineTo(1000, 500);
+    mountain3.lineTo(1000, 420);
     mountain3.closePath();
     bg.fillPoints(mountain3.getPoints());
 
     // 3. Colinas Suaves (Verde vibrante)
     bg.fillStyle(0x66bb6a, 1);
-    const hill1 = new Phaser.Curves.Path(0, 600);
-    hill1.cubicBezierTo(200, 480, 500, 450, 800, 550);
-    hill1.lineTo(1000, 600);
+    const hill1 = new Phaser.Curves.Path(0, 500);
+    hill1.cubicBezierTo(200, 400, 500, 370, 800, 460);
+    hill1.lineTo(1000, 500);
     hill1.closePath();
     bg.fillPoints(hill1.getPoints());
 
     bg.fillStyle(0x81c784, 1); // Colina frontal
-    const hill2 = new Phaser.Curves.Path(0, 600);
-    hill2.cubicBezierTo(300, 550, 600, 520, 1000, 580);
-    hill2.lineTo(1000, 600);
+    const hill2 = new Phaser.Curves.Path(0, 500);
+    hill2.cubicBezierTo(300, 450, 600, 420, 1000, 480);
+    hill2.lineTo(1000, 500);
     hill2.closePath();
     bg.fillPoints(hill2.getPoints());
 
     // 4. Nubes Esponjosas
     this.createClouds(bg);
 
+    bg.fillStyle(0xffffff, 0.08);
+    bg.fillEllipse(280, 240, 520, 120);
+    bg.fillEllipse(760, 210, 420, 110);
+
     // 5. Decoración Vegetal (Arbustos lejanos)
     bg.fillStyle(0x2e7d32, 1);
     for (let i = 0; i < 5; i++) {
       const x = 50 + i * 200 + Math.random() * 100;
-      const y = 520 + Math.random() * 30;
+      const y = 450 + Math.random() * 20;
       bg.fillCircle(x, y, 20);
       bg.fillCircle(x + 15, y - 10, 25);
       bg.fillCircle(x + 30, y, 20);
@@ -154,7 +158,7 @@ export default class PuzzleSolarScene extends Phaser.Scene {
   }
 
   createLargeSolarPanel() {
-    this.panelContainer = this.add.container(500, 350);
+    this.panelContainer = this.add.container(500, 300);
 
     const panelWidth = 450;
     const panelHeight = 280;
@@ -173,13 +177,13 @@ export default class PuzzleSolarScene extends Phaser.Scene {
 
     // Soporte metálico robusto
     graphics.fillStyle(0x757575, 1); // Gris metal
-    graphics.fillRect(-15, panelHeight / 2, 30, 120);
+    graphics.fillRect(-15, panelHeight / 2, 30, 60);
     graphics.lineStyle(2, 0x424242);
-    graphics.strokeRect(-15, panelHeight / 2, 30, 120); // Borde soporte
+    graphics.strokeRect(-15, panelHeight / 2, 30, 60); // Borde soporte
 
     // Base del soporte
     graphics.fillStyle(0x616161, 1);
-    graphics.fillTriangle(-40, 180, 40, 180, 0, panelHeight / 2);
+    graphics.fillTriangle(-40, 170, 40, 170, 0, panelHeight / 2 + 10);
 
     // Marco del panel (Aluminio)
     graphics.fillStyle(0xe0e0e0, 1); // Gris claro brillante
@@ -285,7 +289,7 @@ export default class PuzzleSolarScene extends Phaser.Scene {
         dirt.fillCircle(Math.cos(angle) * dist, Math.sin(angle) * dist, sr);
       }
 
-      const container = this.add.container(500 + pos.x, 350 + pos.y, [dirt]);
+      const container = this.add.container(500 + pos.x, 300 + pos.y, [dirt]);
 
       // Rotación aleatoria para variedad
       container.rotation = Math.random() * Math.PI * 2;
@@ -345,7 +349,7 @@ export default class PuzzleSolarScene extends Phaser.Scene {
 
   playWinAnimation() {
     // 1. Destello en el panel
-    const flash = this.add.rectangle(500, 350, 400, 250, 0xffffff);
+    const flash = this.add.rectangle(500, 300, 400, 250, 0xffffff);
     flash.setAlpha(0);
 
     this.tweens.add({
@@ -361,10 +365,10 @@ export default class PuzzleSolarScene extends Phaser.Scene {
     const shine = this.add.graphics();
     shine.fillStyle(0xffffff, 0.3);
     shine.beginPath();
-    shine.moveTo(300, 225); // Esquina superior izquierda del panel (aprox)
-    shine.lineTo(350, 225);
-    shine.lineTo(700, 475); // Esquina inferior derecha
-    shine.lineTo(650, 475);
+    shine.moveTo(300, 175); // Esquina superior izquierda del panel (aprox)
+    shine.lineTo(350, 175);
+    shine.lineTo(700, 425); // Esquina inferior derecha
+    shine.lineTo(650, 425);
     shine.closePath();
     shine.fillPath();
 
@@ -400,8 +404,12 @@ export default class PuzzleSolarScene extends Phaser.Scene {
       duration: 800,
       onComplete: () => {
         // Transición a la siguiente escena después de un breve retraso
-        this.time.delayedCall(2000, () => {
-          this.scene.start("Puzzle2Scene");
+        this.time.delayedCall(3200, () => {
+          this.cameras.main.fade(1400, 0, 0, 0, false, (camera, progress) => {
+            if (progress === 1) {
+              this.scene.start("Puzzle2Scene");
+            }
+          });
         });
       },
     });
