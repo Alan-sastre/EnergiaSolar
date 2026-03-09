@@ -453,18 +453,17 @@ export default class PuzzleSolarScene extends Phaser.Scene {
       this.hand.setScale(1.2);
 
       // Animación de frotar continua
-      this.tweens.chain({
-        targets: this.hand,
+      this.tweens.timeline({
         tweens: [
           {
-            // Moverse a la mancha
+            targets: this.hand,
             x: targetDirt.x,
             y: targetDirt.y,
             duration: 500,
             ease: "Power2",
           },
           {
-            // Frotar
+            targets: this.hand,
             x: targetDirt.x - 40,
             y: targetDirt.y + 10,
             duration: 400,
@@ -473,11 +472,11 @@ export default class PuzzleSolarScene extends Phaser.Scene {
             ease: "Sine.easeInOut",
           },
           {
-            // Pausa breve y repetir en otra mancha si aún existe
+            targets: this.hand,
             duration: 200,
             onComplete: () => {
               if (this.dirtSpots.length > 0 && !this.isDragging) {
-                this.showHint(); // Recursivo para seguir mostrando
+                this.showHint();
               } else {
                 this.hand.setVisible(false);
               }

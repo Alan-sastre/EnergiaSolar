@@ -983,24 +983,23 @@ export default class Puzzle3Scene extends Phaser.Scene {
       this.hand.setScale(1);
       this.hand.setDepth(200); // Asegurar que se vea encima
 
-      this.tweens.chain({
-        targets: this.hand,
+      this.tweens.timeline({
         tweens: [
-          // 1. Click
           {
+            targets: this.hand,
             scale: { from: 1.5, to: 1 },
             duration: 500,
             ease: "Back.out",
           },
-          // 2. Arrastrar
           {
+            targets: this.hand,
             x: dest.x,
             y: dest.y,
             duration: 1500,
             ease: "Power2",
           },
-          // 3. Reiniciar
           {
+            targets: this.hand,
             alpha: 0,
             duration: 300,
             onComplete: () => {
@@ -1267,25 +1266,28 @@ export default class Puzzle3Scene extends Phaser.Scene {
     });
 
     // Secuencia de Fuegos Artificiales
-    const timeline = this.tweens.chain({
-      targets: this,
+    this.tweens.timeline({
       tweens: [
         {
+          targets: overlay,
           duration: 500,
           onComplete: () =>
             this.createFirework(width * 0.2, height * 0.4, 0xffeb3b),
         },
         {
+          targets: overlay,
           duration: 300,
           onComplete: () =>
             this.createFirework(width * 0.8, height * 0.3, 0x2196f3),
         },
         {
+          targets: overlay,
           duration: 300,
           onComplete: () =>
             this.createFirework(width * 0.5, height * 0.2, 0xe91e63),
         },
         {
+          targets: overlay,
           duration: 300,
           onComplete: () => {
             this.createFirework(width * 0.3, height * 0.6, 0x4caf50);
@@ -1294,6 +1296,7 @@ export default class Puzzle3Scene extends Phaser.Scene {
         },
         // Más fuegos artificiales aleatorios mientras espera
         {
+          targets: overlay,
           duration: 1000,
           repeat: 4,
           onComplete: () => {

@@ -595,24 +595,23 @@ export default class Puzzle2Scene extends Phaser.Scene {
       this.hand.setScale(1);
       this.hand.setDepth(200); // Asegurar que esté encima de todo
 
-      this.tweens.chain({
-        targets: this.hand,
+      this.tweens.timeline({
         tweens: [
-          // 1. Escalar (Click)
           {
+            targets: this.hand,
             scale: { from: 1.5, to: 1 },
             duration: 500,
             ease: "Back.out",
           },
-          // 2. Mover hacia el destino (Arrastrar)
           {
+            targets: this.hand,
             x: dest.x,
             y: dest.y,
             duration: 1500,
             ease: "Power2",
           },
-          // 3. Desvanecer y reiniciar
           {
+            targets: this.hand,
             alpha: 0,
             duration: 300,
             onComplete: () => {
@@ -818,25 +817,28 @@ export default class Puzzle2Scene extends Phaser.Scene {
     });
 
     // Secuencia de Fuegos Artificiales
-    const timeline = this.tweens.chain({
-      targets: this,
+    this.tweens.timeline({
       tweens: [
         {
+          targets: overlay,
           duration: 500,
           onComplete: () =>
             this.createFirework(width * 0.2, height * 0.4, 0xffeb3b),
         },
         {
+          targets: overlay,
           duration: 300,
           onComplete: () =>
             this.createFirework(width * 0.8, height * 0.3, 0x2196f3),
         },
         {
+          targets: overlay,
           duration: 300,
           onComplete: () =>
             this.createFirework(width * 0.5, height * 0.2, 0xe91e63),
         },
         {
+          targets: overlay,
           duration: 300,
           onComplete: () => {
             this.createFirework(width * 0.3, height * 0.6, 0x4caf50);
@@ -844,6 +846,7 @@ export default class Puzzle2Scene extends Phaser.Scene {
           },
         },
         {
+          targets: overlay,
           duration: 2000, // Pausa para ver la celebración
           onComplete: () => {
             // Transición automática al siguiente puzzle
