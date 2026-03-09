@@ -51,62 +51,75 @@ export default class PuzzleSolarScene extends Phaser.Scene {
     const width = 1000;
     const height = 500;
 
-    // 1. Cielo Vibrante (Azul profundo a celeste claro)
-    bg.fillGradientStyle(0x0288d1, 0x0288d1, 0xb3e5fc, 0xb3e5fc, 1);
+    bg.fillGradientStyle(0x1e88e5, 0x42a5f5, 0xbbdefb, 0xe3f2fd, 1);
     bg.fillRect(0, 0, width, height);
+    bg.fillStyle(0xffffff, 0.09);
+    bg.fillEllipse(230, 130, 420, 120);
+    bg.fillEllipse(760, 120, 500, 130);
 
-    // 2. Montañas Lejanas (Majestuosas y púrpuras por la distancia)
-    bg.fillStyle(0x5c6bc0, 1);
-    const mountain1 = new Phaser.Curves.Path(0, 420);
-    mountain1.lineTo(150, 250);
-    mountain1.lineTo(350, 420);
-    mountain1.closePath();
-    bg.fillPoints(mountain1.getPoints());
+    bg.fillStyle(0x8d99ae, 1);
+    const ridgeBack = new Phaser.Curves.Path(0, 360);
+    ridgeBack.lineTo(120, 300);
+    ridgeBack.lineTo(260, 340);
+    ridgeBack.lineTo(420, 270);
+    ridgeBack.lineTo(560, 335);
+    ridgeBack.lineTo(740, 285);
+    ridgeBack.lineTo(900, 330);
+    ridgeBack.lineTo(1000, 300);
+    ridgeBack.lineTo(1000, 500);
+    ridgeBack.lineTo(0, 500);
+    ridgeBack.closePath();
+    bg.fillPoints(ridgeBack.getPoints());
 
-    bg.fillStyle(0x7986cb, 1);
-    const mountain2 = new Phaser.Curves.Path(200, 420);
-    mountain2.lineTo(450, 300);
-    mountain2.lineTo(700, 420);
-    mountain2.closePath();
-    bg.fillPoints(mountain2.getPoints());
+    bg.fillStyle(0x6c7a96, 1);
+    const ridgeMid = new Phaser.Curves.Path(0, 395);
+    ridgeMid.lineTo(90, 360);
+    ridgeMid.lineTo(220, 315);
+    ridgeMid.lineTo(360, 390);
+    ridgeMid.lineTo(520, 320);
+    ridgeMid.lineTo(690, 388);
+    ridgeMid.lineTo(840, 330);
+    ridgeMid.lineTo(1000, 380);
+    ridgeMid.lineTo(1000, 500);
+    ridgeMid.lineTo(0, 500);
+    ridgeMid.closePath();
+    bg.fillPoints(ridgeMid.getPoints());
 
-    bg.fillStyle(0x9fa8da, 1); // Más clara, más cerca
-    const mountain3 = new Phaser.Curves.Path(600, 420);
-    mountain3.lineTo(850, 350);
-    mountain3.lineTo(1000, 420);
-    mountain3.closePath();
-    bg.fillPoints(mountain3.getPoints());
-
-    // 3. Colinas Suaves (Verde vibrante)
     bg.fillStyle(0x66bb6a, 1);
-    const hill1 = new Phaser.Curves.Path(0, 500);
-    hill1.cubicBezierTo(200, 400, 500, 370, 800, 460);
-    hill1.lineTo(1000, 500);
-    hill1.closePath();
-    bg.fillPoints(hill1.getPoints());
+    const meadow = new Phaser.Curves.Path(0, 445);
+    meadow.cubicBezierTo(200, 420, 420, 410, 640, 430);
+    meadow.cubicBezierTo(780, 445, 910, 440, 1000, 432);
+    meadow.lineTo(1000, 500);
+    meadow.lineTo(0, 500);
+    meadow.closePath();
+    bg.fillPoints(meadow.getPoints());
 
-    bg.fillStyle(0x81c784, 1); // Colina frontal
-    const hill2 = new Phaser.Curves.Path(0, 500);
-    hill2.cubicBezierTo(300, 450, 600, 420, 1000, 480);
-    hill2.lineTo(1000, 500);
-    hill2.closePath();
-    bg.fillPoints(hill2.getPoints());
+    bg.fillStyle(0x7cb342, 1);
+    bg.fillRect(0, 438, 1000, 62);
+    bg.fillStyle(0x558b2f, 1);
+    bg.fillRect(0, 438, 1000, 8);
 
-    // 4. Nubes Esponjosas
+    for (let i = 0; i < 18; i++) {
+      bg.fillStyle(i % 2 === 0 ? 0x8bc34a : 0x689f38, 0.35);
+      bg.fillRect(i * 58, 446 + (i % 3) * 4, 34, 50);
+    }
+
     this.createClouds(bg);
 
     bg.fillStyle(0xffffff, 0.08);
-    bg.fillEllipse(280, 240, 520, 120);
-    bg.fillEllipse(760, 210, 420, 110);
+    bg.fillEllipse(280, 225, 470, 100);
+    bg.fillEllipse(760, 195, 400, 95);
 
-    // 5. Decoración Vegetal (Arbustos lejanos)
     bg.fillStyle(0x2e7d32, 1);
     for (let i = 0; i < 5; i++) {
-      const x = 50 + i * 200 + Math.random() * 100;
-      const y = 450 + Math.random() * 20;
-      bg.fillCircle(x, y, 20);
-      bg.fillCircle(x + 15, y - 10, 25);
-      bg.fillCircle(x + 30, y, 20);
+      const x = 40 + i * 200 + Math.random() * 80;
+      const y = 448 + Math.random() * 10;
+      bg.fillCircle(x, y, 16);
+      bg.fillCircle(x + 14, y - 8, 20);
+      bg.fillCircle(x + 28, y, 16);
+      bg.fillStyle(0x6d4c41, 0.9);
+      bg.fillRect(x + 12, y - 4, 5, 14);
+      bg.fillStyle(0x2e7d32, 1);
     }
   }
 

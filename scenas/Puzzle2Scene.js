@@ -79,66 +79,80 @@ export default class Puzzle2Scene extends Phaser.Scene {
   }
 
   createDetailedBackground() {
-    // 1. Capa de Fondo (Cielo y Montañas Lejanas)
     const bg = this.add.graphics();
     const width = 1000;
     const height = 500;
 
-    // Cielo
-    bg.fillGradientStyle(0x4fc3f7, 0x4fc3f7, 0xe1f5fe, 0xe1f5fe, 1);
+    bg.fillGradientStyle(0x26c6da, 0x4dd0e1, 0xb2ebf2, 0xe0f7fa, 1);
     bg.fillRect(0, 0, width, height);
+    bg.fillStyle(0xffffff, 0.1);
+    bg.fillEllipse(240, 135, 440, 110);
+    bg.fillEllipse(760, 120, 520, 130);
 
-    // Sol
     bg.fillStyle(0xffeb3b, 1);
     bg.fillCircle(880, 80, 45);
+    bg.fillStyle(0xffca28, 0.22);
+    bg.fillCircle(880, 80, 95);
     bg.fillStyle(0xffffff, 0.4);
     bg.fillCircle(880, 80, 55);
 
-    // Montañas Lejanas
-    bg.fillStyle(0x90a4ae, 1);
-    const mountains = new Phaser.Curves.Path(0, 400);
-    mountains.lineTo(200, 250);
-    mountains.lineTo(400, 400);
-    mountains.lineTo(600, 300);
-    mountains.lineTo(800, 400);
-    mountains.lineTo(1000, 300);
-    mountains.lineTo(1000, 500);
-    mountains.lineTo(0, 500);
-    mountains.closePath();
-    bg.fillPoints(mountains.getPoints());
+    bg.fillStyle(0x90a4ae, 0.9);
+    const ridgeBack = new Phaser.Curves.Path(0, 360);
+    ridgeBack.lineTo(110, 310);
+    ridgeBack.lineTo(250, 335);
+    ridgeBack.lineTo(380, 280);
+    ridgeBack.lineTo(530, 338);
+    ridgeBack.lineTo(670, 295);
+    ridgeBack.lineTo(820, 340);
+    ridgeBack.lineTo(1000, 300);
+    ridgeBack.lineTo(1000, 500);
+    ridgeBack.lineTo(0, 500);
+    ridgeBack.closePath();
+    bg.fillPoints(ridgeBack.getPoints());
 
-    // 2. Capa Intermedia (Colinas)
+    bg.fillStyle(0x78909c, 0.95);
+    const ridgeFront = new Phaser.Curves.Path(0, 400);
+    ridgeFront.lineTo(100, 360);
+    ridgeFront.lineTo(220, 310);
+    ridgeFront.lineTo(360, 390);
+    ridgeFront.lineTo(520, 325);
+    ridgeFront.lineTo(700, 395);
+    ridgeFront.lineTo(860, 335);
+    ridgeFront.lineTo(1000, 382);
+    ridgeFront.lineTo(1000, 500);
+    ridgeFront.lineTo(0, 500);
+    ridgeFront.closePath();
+    bg.fillPoints(ridgeFront.getPoints());
+
     const midLayer = this.add.graphics();
-    midLayer.fillStyle(0x81c784, 1);
+    midLayer.fillStyle(0x7cb342, 1);
     const hills = new Phaser.Curves.Path(0, 450);
-    hills.quadraticBezierTo(300, 350, 600, 420);
-    hills.quadraticBezierTo(800, 450, 1000, 400);
+    hills.quadraticBezierTo(230, 360, 520, 420);
+    hills.quadraticBezierTo(760, 460, 1000, 405);
     hills.lineTo(1000, 500);
     hills.lineTo(0, 500);
     hills.closePath();
     midLayer.fillPoints(hills.getPoints(200));
 
-    // 3. Objetos de Fondo (Turbinas)
-    // Se añaden aquí para estar sobre las colinas pero detrás del suelo principal si fuera necesario
-    // Posicionamos las turbinas en la "cima" de las colinas visualmente
     this.createWindTurbine(150, 410, 0.6);
     this.createWindTurbine(850, 390, 0.5);
     this.createWindTurbine(500, 380, 0.4); // Lejana
 
-    // Invernadero
     this.createModernGreenhouse(midLayer, 900, 420);
 
-    // 4. Suelo Primer Plano
     const fg = this.add.graphics();
-    fg.fillStyle(0x66bb6a, 1);
-    // Rectángulo sólido para la base del juego
-    fg.fillRect(0, 420, width, 180);
+    fg.fillStyle(0x7cb342, 1);
+    fg.fillRect(0, 420, width, 80);
+    fg.fillStyle(0x8bc34a, 0.45);
+    for (let i = 0; i < 22; i++) {
+      fg.fillRect(i * 48, 426 + (i % 2) * 5, 34, 68);
+    }
+    fg.fillStyle(0xffffff, 0.06);
+    fg.fillEllipse(500, 448, 760, 56);
 
-    // Borde de césped
     fg.fillStyle(0x558b2f, 1);
-    fg.fillRect(0, 420, width, 10);
+    fg.fillRect(0, 420, width, 8);
 
-    // Flores
     for (let i = 0; i < 15; i++) {
       this.createFlower(
         fg,
@@ -147,12 +161,11 @@ export default class Puzzle2Scene extends Phaser.Scene {
       );
     }
 
-    // Nubes
-    this.createFluffyClouds(midLayer); // Nubes detrás del primer plano
+    this.createFluffyClouds(midLayer);
 
     midLayer.fillStyle(0xffffff, 0.1);
-    midLayer.fillEllipse(300, 260, 420, 90);
-    midLayer.fillEllipse(760, 230, 360, 80);
+    midLayer.fillEllipse(300, 250, 430, 90);
+    midLayer.fillEllipse(760, 225, 370, 80);
   }
 
   createWindTurbine(x, y, scale) {
