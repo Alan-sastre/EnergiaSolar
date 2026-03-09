@@ -26,14 +26,3 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-
-const applyMobileSafeZoom = () => {
-  const isSmallMobile = window.innerWidth < 900 || window.innerHeight < 520;
-  const nextZoom = isSmallMobile ? 0.92 : 1;
-  game.scale.setZoom(nextZoom);
-  game.scale.refresh();
-};
-
-window.addEventListener("resize", applyMobileSafeZoom);
-window.addEventListener("orientationchange", applyMobileSafeZoom);
-window.addEventListener("DOMContentLoaded", applyMobileSafeZoom);

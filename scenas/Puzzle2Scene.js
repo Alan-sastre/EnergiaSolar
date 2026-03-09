@@ -851,10 +851,10 @@ export default class Puzzle2Scene extends Phaser.Scene {
         },
         {
           targets: overlay,
-          duration: 2800, // Pausa para ver la celebración
+          duration: 3800, // Pausa para ver la celebración
           onComplete: () => {
             // Transición automática al siguiente puzzle
-            this.cameras.main.fade(1600, 0, 0, 0, false, (camera, progress) => {
+            this.cameras.main.fade(2200, 0, 0, 0, false, (camera, progress) => {
               if (progress === 1) {
                 this.scene.start("Puzzle3Scene");
               }

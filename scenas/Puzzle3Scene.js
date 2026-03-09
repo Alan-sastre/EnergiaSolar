@@ -1246,10 +1246,12 @@ export default class Puzzle3Scene extends Phaser.Scene {
     });
 
     restartBtn.on("pointerdown", () => {
-      this.cameras.main.fade(1500, 0, 0, 0, false, (camera, progress) => {
-        if (progress === 1) {
-          this.scene.start("Puzzle4Scene");
-        }
+      this.time.delayedCall(700, () => {
+        this.cameras.main.fade(2200, 0, 0, 0, false, (camera, progress) => {
+          if (progress === 1) {
+            this.scene.start("Puzzle4Scene");
+          }
+        });
       });
     });
 
